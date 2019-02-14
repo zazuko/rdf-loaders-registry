@@ -79,6 +79,21 @@ describe('LoaderRegistry', () => {
       expect(result).toBe('success')
     })
 
+    test('should handle nodes with multiple types', () => {
+      // given
+      const loader = () => 'success'
+      registry.registerNodeLoader('http://example.com/code/scriptA', loader)
+      const node = def.node(rdf.namedNode(''))
+      node.addOut(rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), 'http://example.com/code/scriptA')
+      node.addOut(rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), 'http://example.com/code/scriptB')
+
+      // when
+      const result = registry.load(node)
+
+      // then
+      expect(result).toBe('success')
+    })
+
     test('should invoke found literal loader', () => {
       // given
       const loader = () => 'success'

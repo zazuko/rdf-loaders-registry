@@ -36,7 +36,9 @@ class LoaderRegistry {
     if (node.term.termType === 'Literal') {
       loader = this._literalLoaders.get(node.term.datatype.value)
     } else {
-      loader = this._nodeLoaders.get(node.out(rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')).value)
+      loader = node.out(rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')).values.reduce((loader, type) => {
+        return loader || this._nodeLoaders.get(type)
+      }, null)
     }
 
     if (loader) {
