@@ -3,7 +3,7 @@
 This package implements a loader registry, which can be used to load code declared in RDF triples.
 
 As the name implies, you'll need actual loaders to do the job. One such package is 
-[rdf-native-loader-code](https://github.com/zazuko/rdf-native-loader-code) which let's you load JavaScript code.
+[rdf-native-loader-code](https://github.com/zazuko/rdf-native-loader-code) which lets you load JavaScript code.
 
 ## Installation
 
