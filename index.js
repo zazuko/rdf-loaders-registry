@@ -30,7 +30,7 @@ class LoaderRegistry {
     this._nodeLoaders.set(getTypeIri(type), loader)
   }
 
-  load (node, context, variables, basePath) {
+  load (node, { context, variables, basePath } = {}) {
     let loader
 
     if (node.term.termType === 'Literal') {
