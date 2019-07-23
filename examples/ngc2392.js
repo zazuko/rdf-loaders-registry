@@ -15,7 +15,7 @@ function integerLoader (term) {
 }
 
 // Node loader that creates a nebular object (label, distance) using nested loaders
-async function nebulaLoader (term, dataset, { loaderRegistry }){
+async function nebulaLoader (term, dataset, { loaderRegistry }) {
   const node = cf(dataset, term)
 
   return {
