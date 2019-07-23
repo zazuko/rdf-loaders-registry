@@ -60,3 +60,13 @@ A loader is a function which implements the following signature:
 ```
 
 It is possible to combine multiple loaders by recursively calling `loaderRegistry.load` from the loader code.
+
+## Example
+
+The examples folder contains a simple example based on nebular data.
+It shows how to implement both types of loaders, nested loaders and how to use the registry.
+You can run the example with the following command:
+
+```
+node examples/ngc2392.js
+```
