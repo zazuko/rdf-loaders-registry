@@ -3,14 +3,14 @@
 This package implements a loader registry, which can be used to load code declared in RDF triples.
 
 The registry cannot really do anything on its own. You will need actual loaders. One package which provides them is 
-[rdf-native-loader-code](https://github.com/zazuko/rdf-native-loader-code) which lets you load JavaScript code.
+[rdf-loader-code](https://github.com/zazuko/rdf-loader-code) which lets you load JavaScript code.
 
 ## Installation
 
 Installed from git for the time being
 
 ```
-npm i --save https://github.com/zazuko/rdf-native-loader
+npm i --save https://github.com/zazuko/rdf-loaders-registry
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ npm i --save https://github.com/zazuko/rdf-native-loader
 1. Call the `load` method
 
 ```js
-const LoaderRegistry = require('rdf-native-loader')
+const LoaderRegistry = require('rdf-loaders-registry')
 const loader = require('./lolcode-loader')
 
 const registry = new LoaderRegistry()
