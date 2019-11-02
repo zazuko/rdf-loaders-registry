@@ -32,11 +32,8 @@ registry.registerNodeLoader('http://example.com/Lolcode', loader)
 registry.registerLiteralLoader('http://example.com/LolcodeInline', loader)
 
 // somewhere else in code
-registry.load(
-  node,
-  context: {},
-  variables: new Map(),
-  basePath: process.cwd()
+registry.load(node, {
+  // some additional options
 })
 ```
 
@@ -48,13 +45,10 @@ A loader is a function which implements the following signature:
 
 ```typescript
 (
-  node: Node,
-  dataset: Dataset, 
+  node: { term, dataset, graph }, 
   {
-    context: Object, 
-    variables: Map, 
-    basePath: string,
-    loaderRegistry: LoaderRegistry
+    loaderRegistry: LoaderRegistry,
+    ...
   }
 ) => any
 ```

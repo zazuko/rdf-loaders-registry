@@ -18,20 +18,13 @@
   },
   "homepage": "https://github.com/zazuko/rdf-loaders-registry",
   "dependencies": {
-    "@rdfjs/data-model": "^1.1.1"
+    "@rdfjs/data-model": "^1.1.2"
   },
   "devDependencies": {
+    "@rdfjs/dataset": "^1.0.1",
     "@rdfjs/namespace": "^1.0.0",
-    "clownface": "^0.10.0",
-    "expect": "^24.1.0",
-    "jest": "^24.1.0",
-    "rdf-ext": "^1.2.2",
-    "standard": "^12.0.1"
-  },
-  "jest": {
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "*.js"
-    ]
+    "clownface": "^0.12.0",
+    "jest": "^24.9.0",
+    "standard": "^14.3.1"
   }
 }

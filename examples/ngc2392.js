@@ -1,6 +1,6 @@
 const cf = require('clownface')
 const namespace = require('@rdfjs/namespace')
-const rdf = require('rdf-ext')
+const rdf = { ...require('@rdfjs/data-model'), ...require('@rdfjs/dataset') }
 const LoaderRegistry = require('..')
 
 const ns = {
@@ -10,17 +10,17 @@ const ns = {
 }
 
 // Literal loader that simple converts the value of the Literal using parseInt
-function integerLoader (term) {
-  return parseInt(term.value)
+function integerLoader (node) {
+  return parseInt(node.term.value)
 }
 
 // Node loader that creates a nebular object (label, distance) using nested loaders
-async function nebulaLoader (term, dataset, { loaderRegistry }) {
-  const node = cf(dataset, term)
+async function nebulaLoader (node, { loaderRegistry }) {
+  const cfNode = cf(node)
 
   return {
-    label: node.out(ns.example.label).value,
-    distance: await loaderRegistry.load(node.out(ns.example.distance))
+    label: cfNode.out(ns.example.label).value,
+    distance: await loaderRegistry.load(cfNode.out(ns.example.distance))
   }
 }
 
@@ -33,7 +33,7 @@ async function main () {
   registry.registerNodeLoader(ns.example.Nebula, nebulaLoader)
 
   // create the quads for the nebular object
-  const ngc2392 = cf(rdf.dataset(), ns.example('ngc/2392'))
+  const ngc2392 = cf({ term: ns.example('ngc/2392'), dataset: rdf.dataset() })
   ngc2392.addOut(ns.rdf.type, ns.example.Nebula)
   ngc2392.addOut(ns.example.label, rdf.literal('Clownface Nebula'))
   ngc2392.addOut(ns.example.distance, rdf.literal('2870', ns.xsd.integer))
