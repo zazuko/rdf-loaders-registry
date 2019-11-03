@@ -1,19 +1,15 @@
 const rdf = require('@rdfjs/data-model')
 
 function getTypeIri (typeOrNode) {
-  let typeIri
-
   if (typeof typeOrNode === 'string') {
-    typeIri = typeOrNode
-  } else if (typeOrNode.termType === 'NamedNode') {
-    typeIri = typeOrNode.value
+    return typeOrNode
   }
 
-  if (!typeIri) {
-    throw new Error('Unrecognized type to register. It must be string or rdf.NamedNode')
+  if (typeOrNode.termType === 'NamedNode') {
+    return typeOrNode.value
   }
 
-  return typeIri
+  throw new Error('Unrecognized type to register. It must be string or rdf.NamedNode')
 }
 
 class LoaderRegistry {
@@ -30,22 +26,25 @@ class LoaderRegistry {
     this._nodeLoaders.set(getTypeIri(type), loader)
   }
 
-  load (node, { context, variables, basePath } = {}) {
-    let loader
+  load (node, options = {}) {
+    const loader = this.loader(node)
 
+    if (!loader) {
+      return null
+    }
+
+    return loader(node, { ...options, loaderRegistry: this })
+  }
+
+  loader (node) {
     if (node.term.termType === 'Literal') {
-      loader = this._literalLoaders.get(node.term.datatype.value)
-    } else {
-      loader = node.out(rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')).values.reduce((loader, type) => {
-        return loader || this._nodeLoaders.get(type)
-      }, null)
+      return this._literalLoaders.get(node.term.datatype.value)
     }
 
-    if (loader) {
-      return loader(node.term, node.dataset, { context, variables, basePath, loaderRegistry: this })
-    }
+    const typeQuads = node.dataset.match(node.term, rdf.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'))
 
-    return null
+    // loop over all type quads and assign the first found loader
+    return [...typeQuads].reduce((loader, quad) => loader || this._nodeLoaders.get(quad.object.value), null)
   }
 }
 
