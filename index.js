@@ -30,7 +30,7 @@ class LoaderRegistry {
     const loader = this.loader(node)
 
     if (!loader) {
-      return null
+      return undefined
     }
 
     return loader(node, { ...options, loaderRegistry: this })

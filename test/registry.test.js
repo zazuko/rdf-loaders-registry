@@ -130,7 +130,7 @@ describe('LoaderRegistry', () => {
       expect(result).toBe('success')
     })
 
-    test('should return null if node loader is not found', () => {
+    test('should return undefined if node loader is not found', () => {
       // given
       const loader = () => 'success'
       registry.registerNodeLoader('http://example.com/code/script', loader)
@@ -145,10 +145,10 @@ describe('LoaderRegistry', () => {
       const result = registry.load(node)
 
       // then
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
 
-    test('should return null if literal loader is not found', () => {
+    test('should return undefined if literal loader is not found', () => {
       // given
       const loader = () => 'success'
       registry.registerNodeLoader('http://example.com/code/script', loader)
@@ -160,7 +160,7 @@ describe('LoaderRegistry', () => {
       const result = registry.load(node)
 
       // then
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
 
     test('loader is called with node argument', () => {
