@@ -13,9 +13,10 @@ function getTypeIri (typeOrNode) {
 }
 
 class LoaderRegistry {
-  constructor () {
+  constructor ({ basePath }) {
     this._literalLoaders = new Map()
     this._nodeLoaders = new Map()
+    this._basePath = basePath
   }
 
   registerLiteralLoader (type, loader) {
@@ -33,7 +34,11 @@ class LoaderRegistry {
       return undefined
     }
 
-    return loader(node, { ...options, loaderRegistry: this })
+    return loader(node, {
+      basePath: this._basePath,
+      ...options,
+      loaderRegistry: this
+    })
   }
 
   loader (node) {

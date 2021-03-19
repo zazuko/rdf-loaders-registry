@@ -8,7 +8,7 @@ describe('LoaderRegistry', () => {
   let node
 
   beforeEach(() => {
-    registry = new LoaderRegistry()
+    registry = new LoaderRegistry({ basePath: '/default/base' })
 
     node = {
       term: rdf.namedNode(''),
@@ -190,6 +190,35 @@ describe('LoaderRegistry', () => {
 
       // then
       expect(result.a).toBe('b')
+    })
+
+    test('loader is called with given basePath', () => {
+      // given
+      const options = { basePath: '/path/to/code' }
+      const loader = (node, options) => options
+      registry.registerLiteralLoader('http://example.com/code/script', loader)
+
+      node.term = rdf.literal('test', rdf.namedNode('http://example.com/code/script'))
+
+      // when
+      const result = registry.load(node, options)
+
+      // then
+      expect(result.basePath).toBe(options.basePath)
+    })
+
+    test('loader is called with default basePath', () => {
+      // given
+      const loader = (node, options) => options
+      registry.registerLiteralLoader('http://example.com/code/script', loader)
+
+      node.term = rdf.literal('test', rdf.namedNode('http://example.com/code/script'))
+
+      // when
+      const result = registry.load(node)
+
+      // then
+      expect(result.basePath).toBe('/default/base')
     })
 
     test('loader is called with loaderRegistry option', () => {
