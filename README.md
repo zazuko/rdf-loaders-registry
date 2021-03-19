@@ -7,10 +7,8 @@ The registry cannot really do anything on its own. You will need actual loaders.
 
 ## Installation
 
-Installed from git for the time being
-
 ```
-npm i --save https://github.com/zazuko/rdf-loaders-registry
+npm i --save rdf-loaders-registry
 ```
 
 ## Usage
