@@ -28,6 +28,7 @@
     "@changesets/cli": "^2.27.1",
     "@tpluscode/eslint-config": "^0.4.4",
     "@zazuko/env": "^1.11.0",
+    "c8": "^8.0.1",
     "chai": "^4.3.10",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
