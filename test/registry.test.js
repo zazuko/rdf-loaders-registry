@@ -1,7 +1,6 @@
-/* global beforeEach, describe, expect, test  */
-
-const rdf = { ...require('@rdfjs/data-model'), ...require('@rdfjs/dataset') }
-const LoaderRegistry = require('..')
+import { expect } from 'chai'
+import rdf from '@zazuko/env'
+import LoaderRegistry from '../index.js'
 
 describe('LoaderRegistry', () => {
   let registry
@@ -13,12 +12,12 @@ describe('LoaderRegistry', () => {
     node = {
       term: rdf.namedNode(''),
       dataset: rdf.dataset(),
-      graph: rdf.defaultGraph()
+      graph: rdf.defaultGraph(),
     }
   })
 
   describe('registerLiteralLoader', () => {
-    test('should add to registry', () => {
+    it('should add to registry', () => {
       // given
       const loader = {}
 
@@ -26,10 +25,10 @@ describe('LoaderRegistry', () => {
       registry.registerLiteralLoader('http://example.com/code/ecmaScriptTemplate', loader)
 
       // then
-      expect(registry._literalLoaders.size).toBe(1)
+      expect(registry._literalLoaders.size).to.eq(1)
     })
 
-    test('can be called with named node parameter', () => {
+    it('can be called with named node parameter', () => {
       // given
       const loader = {}
 
@@ -37,18 +36,18 @@ describe('LoaderRegistry', () => {
       registry.registerLiteralLoader(rdf.namedNode('http://example.com/code/ecmaScript'), loader)
 
       // then
-      expect(registry._literalLoaders.get('http://example.com/code/ecmaScript')).toBe(loader)
+      expect(registry._literalLoaders.get('http://example.com/code/ecmaScript')).to.eq(loader)
     })
 
-    test('throws an error if called with none string and named node parameter', () => {
+    it('throws an error if called with none string and named node parameter', () => {
       expect(() => {
         registry.registerLiteralLoader({}, {})
-      }).toThrow()
+      }).to.throw()
     })
   })
 
   describe('registerNodeLoader', () => {
-    test('should add to registry', () => {
+    it('should add to registry', () => {
       // given
       const loader = {}
 
@@ -56,10 +55,10 @@ describe('LoaderRegistry', () => {
       registry.registerNodeLoader('http://example.com/code/ecmaScript', loader)
 
       // then
-      expect(registry._nodeLoaders.size).toBe(1)
+      expect(registry._nodeLoaders.size).to.eq(1)
     })
 
-    test('can be called with named node parameter', () => {
+    it('can be called with named node parameter', () => {
       // given
       const loader = {}
 
@@ -67,18 +66,18 @@ describe('LoaderRegistry', () => {
       registry.registerNodeLoader(rdf.namedNode('http://example.com/code/ecmaScript'), loader)
 
       // then
-      expect(registry._nodeLoaders.get('http://example.com/code/ecmaScript')).toBe(loader)
+      expect(registry._nodeLoaders.get('http://example.com/code/ecmaScript')).to.eq(loader)
     })
 
-    test('throws an error if called with none string and named node parameter', () => {
+    it('throws an error if called with none string and named node parameter', () => {
       expect(() => {
         registry.registerNodeLoader({}, {})
-      }).toThrow()
+      }).to.throw()
     })
   })
 
   describe('load', () => {
-    test('should invoke found node loader', () => {
+    it('should invoke found node loader', () => {
       // given
       const loader = () => 'success'
       registry.registerNodeLoader('http://example.com/code/script', loader)
@@ -92,10 +91,10 @@ describe('LoaderRegistry', () => {
       const result = registry.load(node)
 
       // then
-      expect(result).toBe('success')
+      expect(result).to.eq('success')
     })
 
-    test('should handle nodes with multiple types', () => {
+    it('should handle nodes with multiple types', () => {
       // given
       const loader = () => 'success'
       registry.registerNodeLoader('http://example.com/code/scriptA', loader)
@@ -113,10 +112,10 @@ describe('LoaderRegistry', () => {
       const result = registry.load(node)
 
       // then
-      expect(result).toBe('success')
+      expect(result).to.eq('success')
     })
 
-    test('should invoke found literal loader', () => {
+    it('should invoke found literal loader', () => {
       // given
       const loader = () => 'success'
       registry.registerLiteralLoader('http://example.com/code/script', loader)
@@ -127,10 +126,10 @@ describe('LoaderRegistry', () => {
       const result = registry.load(node)
 
       // then
-      expect(result).toBe('success')
+      expect(result).to.eq('success')
     })
 
-    test('should return undefined if node loader is not found', () => {
+    it('should return undefined if node loader is not found', () => {
       // given
       const loader = () => 'success'
       registry.registerNodeLoader('http://example.com/code/script', loader)
@@ -145,10 +144,10 @@ describe('LoaderRegistry', () => {
       const result = registry.load(node)
 
       // then
-      expect(result).toBeUndefined()
+      expect(result).to.be.undefined
     })
 
-    test('should return undefined if literal loader is not found', () => {
+    it('should return undefined if literal loader is not found', () => {
       // given
       const loader = () => 'success'
       registry.registerNodeLoader('http://example.com/code/script', loader)
@@ -160,10 +159,10 @@ describe('LoaderRegistry', () => {
       const result = registry.load(node)
 
       // then
-      expect(result).toBeUndefined()
+      expect(result).to.be.undefined
     })
 
-    test('loader is called with node argument', () => {
+    it('loader is called with node argument', () => {
       // given
       const loader = node => node
       registry.registerLiteralLoader('http://example.com/code/script', loader)
@@ -174,10 +173,10 @@ describe('LoaderRegistry', () => {
       const result = registry.load(node)
 
       // then
-      expect(result).toBe(node)
+      expect(result).to.eq(node)
     })
 
-    test('loader is called with given options', () => {
+    it('loader is called with given options', () => {
       // given
       const options = { a: 'b' }
       const loader = (node, options) => options
@@ -189,10 +188,10 @@ describe('LoaderRegistry', () => {
       const result = registry.load(node, options)
 
       // then
-      expect(result.a).toBe('b')
+      expect(result.a).to.eq('b')
     })
 
-    test('loader is called with loaderRegistry option', () => {
+    it('loader is called with loaderRegistry option', () => {
       // given
       const options = { a: 'b' }
       const loader = (node, options) => options
@@ -204,12 +203,12 @@ describe('LoaderRegistry', () => {
       const result = registry.load(node, options)
 
       // then
-      expect(result.loaderRegistry).toBe(registry)
+      expect(result.loaderRegistry).to.eq(registry)
     })
   })
 
   describe('loader', () => {
-    test('should load node loader', () => {
+    it('should load node loader', () => {
       // given
       const loader = {}
       registry.registerNodeLoader('http://example.com/code/script', loader)
@@ -223,10 +222,10 @@ describe('LoaderRegistry', () => {
       const result = registry.loader(node)
 
       // then
-      expect(result).toBe(loader)
+      expect(result).to.eq(loader)
     })
 
-    test('should handle nodes with multiple types', () => {
+    it('should handle nodes with multiple types', () => {
       // given
       const loader = {}
       registry.registerNodeLoader('http://example.com/code/scriptA', loader)
@@ -244,10 +243,10 @@ describe('LoaderRegistry', () => {
       const result = registry.loader(node)
 
       // then
-      expect(result).toBe(loader)
+      expect(result).to.eq(loader)
     })
 
-    test('should load literal loader', () => {
+    it('should load literal loader', () => {
       // given
       const loader = {}
       registry.registerLiteralLoader('http://example.com/code/script', loader)
@@ -258,10 +257,10 @@ describe('LoaderRegistry', () => {
       const result = registry.loader(node)
 
       // then
-      expect(result).toBe(loader)
+      expect(result).to.eq(loader)
     })
 
-    test('should return null if node loader is not found', () => {
+    it('should return null if node loader is not found', () => {
       // given
       const loader = {}
       registry.registerNodeLoader('http://example.com/code/script', loader)
@@ -276,10 +275,10 @@ describe('LoaderRegistry', () => {
       const result = registry.loader(node)
 
       // then
-      expect(result).toBeFalsy()
+      expect(result).not.to.be.ok
     })
 
-    test('should return null if literal loader is not found', () => {
+    it('should return null if literal loader is not found', () => {
       // given
       const loader = {}
       registry.registerNodeLoader('http://example.com/code/script', loader)
@@ -291,7 +290,7 @@ describe('LoaderRegistry', () => {
       const result = registry.loader(node)
 
       // then
-      expect(result).toBeFalsy()
+      expect(result).not.to.be.ok
     })
   })
 })

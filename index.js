@@ -1,6 +1,6 @@
-const rdf = require('@rdfjs/data-model')
+import rdf from '@rdfjs/data-model'
 
-function getTypeIri (typeOrNode) {
+function getTypeIri(typeOrNode) {
   if (typeof typeOrNode === 'string') {
     return typeOrNode
   }
@@ -12,21 +12,21 @@ function getTypeIri (typeOrNode) {
   throw new Error('Unrecognized type to register. It must be string or rdf.NamedNode')
 }
 
-class LoaderRegistry {
-  constructor () {
+export default class LoaderRegistry {
+  constructor() {
     this._literalLoaders = new Map()
     this._nodeLoaders = new Map()
   }
 
-  registerLiteralLoader (type, loader) {
+  registerLiteralLoader(type, loader) {
     this._literalLoaders.set(getTypeIri(type), loader)
   }
 
-  registerNodeLoader (type, loader) {
+  registerNodeLoader(type, loader) {
     this._nodeLoaders.set(getTypeIri(type), loader)
   }
 
-  load (node, options = {}) {
+  load(node, options = {}) {
     const loader = this.loader(node)
 
     if (!loader) {
@@ -36,7 +36,7 @@ class LoaderRegistry {
     return loader(node, { ...options, loaderRegistry: this })
   }
 
-  loader (node) {
+  loader(node) {
     if (node.term.termType === 'Literal') {
       return this._literalLoaders.get(node.term.datatype.value)
     }
@@ -47,5 +47,3 @@ class LoaderRegistry {
     return [...typeQuads].reduce((loader, quad) => loader || this._nodeLoaders.get(quad.object.value), null)
   }
 }
-
-module.exports = LoaderRegistry

@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "@tpluscode/eslint-config/js"
+  ],
+  "env": {
+    "mocha": true
+  },
+  "overrides": [
+    {
+      "files": "examples/*",
+      "rules": {
+        "import/no-extraneous-dependencies": "warn",
+        "no-console": "off"
+      }
+    }
+  ]
+}
