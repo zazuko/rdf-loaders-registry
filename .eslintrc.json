@@ -1,7 +1,10 @@
 {
   "extends": [
-    "@tpluscode/eslint-config/js"
+    "@tpluscode"
   ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "env": {
     "mocha": true
   },

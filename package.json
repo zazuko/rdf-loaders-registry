@@ -8,8 +8,13 @@
     "prepare": "husky install",
     "lint": "eslint . --quiet --ignore-path .gitignore",
     "test": "c8 --reporter=lcov mocha",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "prepack": "tsc -p tsconfig.build.json"
   },
+  "files": [
+    "*.js",
+    "*.d.ts"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/zazuko/rdf-loaders-registry.git"
@@ -22,19 +27,30 @@
   },
   "homepage": "https://github.com/zazuko/rdf-loaders-registry",
   "dependencies": {
-    "@rdfjs/data-model": "^2"
+    "@rdfjs/data-model": "^2",
+    "is-graph-pointer": "^2.1.0"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
     "@tpluscode/eslint-config": "^0.4.4",
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
     "@zazuko/env": "^1.11.0",
     "c8": "^8.0.1",
     "chai": "^4.3.10",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.3"
   },
   "lint-staged": {
     "*.js": "eslint --fix --quiet"
+  },
+  "mocha": {
+    "loader": "ts-node/esm"
   }
 }
