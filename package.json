@@ -1,6 +1,6 @@
 {
   "name": "rdf-loaders-registry",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Registry for JavaScript native types loader based on RDF descriptions",
   "main": "index.js",

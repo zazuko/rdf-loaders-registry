@@ -1,5 +1,11 @@
 # rdf-loaders-registry
 
+## 1.0.1
+
+### Patch Changes
+
+- f4b4523: Missing interface export to match old DT package
+
 ## 1.0.0
 
 ### Major Changes
