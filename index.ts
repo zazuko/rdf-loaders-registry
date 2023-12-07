@@ -13,6 +13,18 @@ export interface Loader<T, TOptions extends Record<string, unknown> = {}> {
   (node: GraphPointer, options: LoadOptions<TOptions>): T | Promise<T>
 }
 
+export interface LoaderRegistry {
+  registerLiteralLoader(datatype: NamedNode | string, loader: Loader<any, any>): void
+  registerNodeLoader(type: NamedNode | string, loader: Loader<any, any>): void
+  load<
+    T = any,
+    // eslint-disable-next-line no-use-before-define
+    TLoader extends Loader<T, TOptions> = Loader<T>,
+    TOptions extends Record<string, any> = TLoader extends Loader<T, infer U> ? U : {},
+  >(node: GraphPointer, options?: TOptions): Promise<T> | T | undefined
+  loader(node: GraphPointer): Loader<any, any> | null | undefined
+}
+
 function getTypeIri(typeOrNode: string | NamedNode) {
   if (typeof typeOrNode === 'string') {
     return typeOrNode
@@ -25,7 +37,7 @@ function getTypeIri(typeOrNode: string | NamedNode) {
   throw new Error('Unrecognized type to register. It must be string or rdf.NamedNode')
 }
 
-export default class LoaderRegistry {
+export default class implements LoaderRegistry {
   public readonly _literalLoaders: Map<string, Loader<any, any>>
   public readonly _nodeLoaders: Map<string, Loader<any, any>>
 
