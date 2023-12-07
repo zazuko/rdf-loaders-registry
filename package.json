@@ -1,10 +1,14 @@
 {
   "name": "rdf-loaders-registry",
   "version": "0.3.0",
+  "type": "module",
   "description": "Registry for JavaScript native types loader based on RDF descriptions",
   "main": "index.js",
   "scripts": {
-    "test": "standard && jest"
+    "prepare": "husky install",
+    "lint": "eslint . --quiet --ignore-path .gitignore",
+    "test": "c8 --reporter=lcov mocha",
+    "release": "changeset publish"
   },
   "repository": {
     "type": "git",
@@ -18,13 +22,19 @@
   },
   "homepage": "https://github.com/zazuko/rdf-loaders-registry",
   "dependencies": {
-    "@rdfjs/data-model": "^1.1.2"
+    "@rdfjs/data-model": "^2"
   },
   "devDependencies": {
-    "@rdfjs/dataset": "^1.0.1",
-    "@rdfjs/namespace": "^1.0.0",
-    "clownface": "^0.12.0",
-    "jest": "^24.9.0",
-    "standard": "^14.3.1"
+    "@changesets/cli": "^2.27.1",
+    "@tpluscode/eslint-config": "^0.4.4",
+    "@zazuko/env": "^1.11.0",
+    "c8": "^8.0.1",
+    "chai": "^4.3.10",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "mocha": "^10.2.0"
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix --quiet"
   }
 }
