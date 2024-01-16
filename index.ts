@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-types */
-import { NamedNode } from 'rdf-js'
+import type { NamedNode } from '@rdfjs/types'
 import rdf from '@rdfjs/data-model'
 import type { GraphPointer } from 'clownface'
 import { isLiteral } from 'is-graph-pointer'
