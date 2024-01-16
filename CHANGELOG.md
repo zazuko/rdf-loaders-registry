@@ -1,5 +1,11 @@
 # rdf-loaders-registry
 
+## 1.0.2
+
+### Patch Changes
+
+- de441e8: Remove the use of deprecated `rdf-js` package
+
 ## 1.0.1
 
 ### Patch Changes
