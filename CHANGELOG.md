@@ -1,5 +1,11 @@
 # rdf-loaders-registry
 
+## 1.0.3
+
+### Patch Changes
+
+- d4aff3f: Remove ES fields from build output
+
 ## 1.0.2
 
 ### Patch Changes
